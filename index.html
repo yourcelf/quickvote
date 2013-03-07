@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quick Vote</title>
+    <link rel='stylesheet' type='text/css' href='css/style.css' />
+  </head>
+  <body>
+    <div id='app'></div>
+    <!-- Template for the main front page: a view to add polls and list them. -->
+    <script type='text/template' id='pollAddViewTemplate'>
+      <div class='poll-add-view'>
+        <h2>Add a poll</h2>
+        <form class='add-poll'>
+          <input type='text' name='name'>
+          <input type='submit' value='Add'>
+        </form>
+        <ul>
+          <% polls.each(function(poll) { %>
+            <li><a href='<%= poll.getURL() %>'><%= poll.get("name") %></a></li>
+          <% }); %>
+        </ul>
+      </div>
+    </script>
+    <!-- Template for the detail view for a single poll, showing choices/votes. -->
+    <script type='text/template' id='pollDetailViewTemplate'>
+      <a href='#'>&larr; Polls</a>
+      <div class='poll-detail-view'>
+        <h1><%= poll.get("name") %></h1>
+        <div class='top-choices'>
+          <h2>Top Choices</h2>
+          <div class='top-choices-view'></div>
+        </div>
+        <div class='choices'>
+          <h2>All Choices</h2>
+          <ul class='choices-list'></ul>
+          <div class='choice-add'></div>
+        </div>
+      </div>
+    </script>
+    <!-- Template for a form to add new choices to a poll. -->
+    <script type='text/template' id='choiceAddViewTemplate'>
+      <form class='add-choice'>
+        <input type='text' name='choice' />
+        <input type='submit' value='Add' />
+      </form>
+    </script>
+    <!-- Template for a single choice in a list of choices. -->
+    <script type='text/template' id='choiceDetailViewTemplate'>
+      <span class='choice'><%= choice.get("name") %></span>
+    </script>
+    <!-- Template for a list of the top choices. -->
+    <script type='text/template' id='topChoicesViewTemplate'>
+      <%= choices.length == 0 ? "No choices yet." : "" %>
+      <ul>
+        <% for (var i = 0; i < 5; i++) { %>
+          <% if (i < choices.length) { %>
+            <li>(<%= choices.at(i).get("votes") || 0 %>) <%= choices.at(i).get("name") %></li>
+          <% } %>
+        <% } %>
+      </ul>
+    </script>
+    <!-- The scripts we need. -->
+    <script type='text/javascript' src="lib/jquery-1.9.1.min.js"></script>
+    <script type='text/javascript' src="lib/underscore-min.js"></script>
+    <script type='text/javascript' src="lib/backbone-min.js"></script>
+    <script type='text/javascript' src="lib/backbone.localStorage.js"></script>
+    <script type='text/javascript' src='js/script.js'></script>
+  </body>
+</html>
