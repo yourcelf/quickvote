@@ -148,7 +148,12 @@ var PollDetailView = Backbone.View.extend({
     template: _.template($("#pollDetailViewTemplate").html()),
     initialize: function(options) {
         this.poll = options.poll;
+        // Create a collection for the choices, initializing it with the ID for
+        // our poll, so it can filter the choices to only include those in the
+        // current poll.
         this.choices = new ChoiceCollection([], {poll_id: this.poll.id});
+        // Every time a new choice is added, call call the function to add a
+        // new choice view.
         this.choices.on("add", function(choice) {
             this.addChoiceView(choice);
         }, this);
@@ -156,19 +161,31 @@ var PollDetailView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template({poll: this.poll}));
+        
+        // Add a choice view for each choice.
         this.choices.each(function(model) {
             this.addChoiceView(model);
         }, this);
+        
+        // Add a view with the form to add new choices
         this.choiceAddView = new ChoiceAddView();
         this.$(".choice-add").html(this.choiceAddView.el);
         this.choiceAddView.render();
+        
+        // Whenever the form reports that it got a new choice, try to add the
+        // new choice model.  That function will handle validation errors.
         this.choiceAddView.on("gotNewChoice", this.addChoiceModel, this);
 
+        // Add the view to show the list of the top choices.
         var topChoices = new TopChoicesView({choices: this.choices});
         this.$(".top-choices-view").html(topChoices.el);
         topChoices.render();
     },
     addChoiceModel: function(model) {
+        // This function tries to add a new choice model, but makes sure that
+        // it's valid first.
+
+        // Check that there isn't an existing choice with the same name.
         var existing = this.choices.find(function(old) {
             return old.get("name") == model.get("name");
         });
@@ -176,18 +193,29 @@ var PollDetailView = Backbone.View.extend({
             this.choiceAddView.setError("That name is already taken.");
             return;
         }
+
+        // Set the poll_id of the choice, so that we can filter which poll to
+        // display it in.
         model.set("poll_id", this.poll.id);
+        
+        // This is the same tricky move as above -- we set the collection so
+        // that the model knows where to find local storage, but don't yet add
+        // the model to the collection.
         model.collection = this.choices;
+
+        // If we get a validation error, display it.
         model.on("invalid", function() {
             this.choiceAddView.setError(model.validationError);
             this.choices.remove(model);
         }, this);
-        model.save();
-        if (!model.validationError) {
-            this.choices.add(model);
-        }
+        model.save({}, {
+            success: _.bind(function() {
+                this.choices.add(model);
+            }, this)
+        });
     },
     addChoiceView: function(model) {
+        // Add a view that displays a single choice.
         var choiceView = new ChoiceDetailView({choice: model});
         this.$(".choices-list").append(choiceView.el);
         choiceView.render();
