@@ -16,7 +16,7 @@
         </form>
         <ul>
           <% polls.each(function(poll) { %>
-            <li><a href='<%= poll.getURL() %>'><%= poll.get("name") %></a></li>
+            <li><a href='<%- poll.getURL() %>'><%- poll.get("name") %></a></li>
           <% }); %>
         </ul>
       </div>
@@ -25,7 +25,7 @@
     <script type='text/template' id='pollDetailViewTemplate'>
       <a href='#'>&larr; Polls</a>
       <div class='poll-detail-view'>
-        <h1><%= poll.get("name") %></h1>
+        <h1><%- poll.get("name") %></h1>
         <div class='top-choices'>
           <h2>Top Choices</h2>
           <div class='top-choices-view'></div>
@@ -46,15 +46,15 @@
     </script>
     <!-- Template for a single choice in a list of choices. -->
     <script type='text/template' id='choiceDetailViewTemplate'>
-      <span class='choice'><%= choice.get("name") %></span>
+      <span class='choice'><%- choice.get("name") %></span>
     </script>
     <!-- Template for a list of the top choices. -->
     <script type='text/template' id='topChoicesViewTemplate'>
-      <%= choices.length == 0 ? "No choices yet." : "" %>
+      <%- choices.length == 0 ? "No choices yet." : "" %>
       <ul>
         <% for (var i = 0; i < 5; i++) { %>
           <% if (i < choices.length) { %>
-            <li>(<%= choices.at(i).get("votes") || 0 %>) <%= choices.at(i).get("name") %></li>
+            <li>(<%- choices.at(i).get("votes") || 0 %>) <%- choices.at(i).get("name") %></li>
           <% } %>
         <% } %>
       </ul>
