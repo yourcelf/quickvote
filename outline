@@ -1,0 +1,98 @@
+links:
+ - http://backbonejs.org
+ - http://underscorejs.org
+
+History: Client vs Server
+=========================
+
+In the beginning, there was the mainframe.
+
+1970's: Time shares, dumb terminals. Room-filling servers.
+
+1980's: Personal computers, back to the client.
+
+1990's: The Internet: back to the server.
+
+2000's: People start taking javascript seriously.
+
+2010's: The "single page app": back to the client.
+
+Web browsers
+============
+
+1990: Nexus
+1992: Mosaic (first with images)
+1994: Opera v1
+1994: Mosaic Netscape / Netscape Navigator
+1995: Internet Explorer v1
+1996-2000: Browser Wars I, Netscape vs IE
+2003: Firefox, Safari
+2003-2007: Browser Wars II, Everyone vs IE
+2006: (Initial jQuery release)
+2007: iPhone (first "real" mobile browser with wide market share)
+2008: Chrome
+2013:
+ - IE10, Firefox 19, Chrome 24
+ - Opera is moving to "webkit"
+ - Mobile is huge, but hugely webkit.
+
+201?:
+ - FirefoxOS?
+ - ChromeOS?
+
+javascript & libraries
+======================
+
+In the dark ages: incompatible browser implementations.
+Today: mostly better.
+
+Libraries smooth over remaining differences.
+
+In 2007:
+ - jQuery vs prototype vs dojo vs mochikit
+Today:
+ - jQuery, or jQuery-compatible things like "Zepto"
+
+client-side MVC
+===============
+
+ - It is today's "2007" in client-side MVC. Lots of choices, no clear winner,
+   lots of opinions.
+ - Given the complexity of full MVC frameworks, there may never be "one true
+   library" (just like today there is Django, Flask, Pyramid, Tornado, ...)
+
+Major players:
+ - Angular.js
+ - Ember.js
+ - Backbone.js
+
+More radical:
+ - Meteor.js
+ - Derby.js
+
+
+Backbone
+========
+
+Why backbone?
+ - Widely used (github followers, google page volume, major projects in production)
+ - Simpler/less opinionated (easier to plug in, wrap head around)
+ - Fairly stable (at 1.0 release candidate stage)
+Why not backbone?
+ - More verbose
+
+Models, Views, Routers, Templates.
+==================================
+
+Events
+ - on, trigger, once
+
+Models:
+ - "get", "set", "fetch", "save"
+
+Views:
+ - "events", "el", "$", "render"
+
+Underscore templates
+ - <%- "escaped" %>, <%= "unescaped" %>
+ - <% var interpreted = true; %>
